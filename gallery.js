@@ -83,7 +83,7 @@
                 }
             });
 
-            if (currRow.length > 1) {
+            if (currRow.length > 0) {
                 rows.push(currRow);
             }
 
