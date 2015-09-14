@@ -1,29 +1,3 @@
-var frames =
-    [{ height: 360, width: 1000 },
-     { height: 600, width: 400 },
-     { height: 400, width: 600 },
-     { height: 400, width: 600 },
-     { height: 400, width: 300 },
-     { height: 400, width: 300 }];
-
-var cats = [
-    { height: 900, width: 1600, file: "cat1.jpg" },
-    { height: 920, width: 1150, file: "cat2.jpg"  },
-    { height: 660, width: 1024, file: "cat3.jpg"  },
-    { height: 828, width: 1913, file: "cat4.jpg"  },
-    { height: 749, width: 852, file: "cat5.jpg"  },
-    { height: 962, width: 1576, file: "cat6.jpg"  },
-    { height: 754, width: 1270, file: "cat7.jpg"  },
-    { height: 2407, width: 3743, file: "cat8.jpg"  },
-    { height: 730, width: 459, file: "cat9.jpg"  },
-    { height: 1200, width: 1920, file: "cat10.jpg"  },
-    { height: 768, width: 1024, file: "cat11.jpg"  },
-    { height: 1000, width: 1110, file: "cat12.jpg"  },
-    { height: 768, width: 1024, file: "cat13.jpg"  },
-    { height: 733, width: 822, file: "cat14.jpg"  },
-    { height: 1200, width: 1920, file: "cat15.jpg"  }
-];
-
 (function() {
     var root = this;
 
@@ -116,21 +90,34 @@ var cats = [
             return rows;
         },
 
-        renderFrames: function(rows, containerWidth, spacing) {
+        /**
+         * Renders a given list of images dimensions and files into a gallery.  Formats images first and
+         * then builds up an html string and places result in the container div.
+         *
+         * @param images {Array<Object>} array of frame objects with height/width properties
+         * @param containerWidth{number} width of the containing element, in pixels
+         * @param maxRowHeight {number} maximum height of each row of images, in pixels
+         * @param spacing {number} spacing between images in a row, in pixels
+         */
+        renderFrames: function(images, containerWidth, maxRowHeight, spacing) {
+            var rows = Gallery.layoutFrames(images, containerWidth, maxRowHeight, spacing);
             document.getElementById("container").innerHTML = "";
             var html = [];
             // render row
             rows.forEach(function(row) {
-                html.push("<div style='width:" + containerWidth + "px;'>");
+                html.push("<div style='width:", containerWidth, "px;'>");
                 //render image
                 row.forEach(function(image, index) {
                     var marginRight = 0;
                     if (index < row.length - 1) {
                         marginRight = spacing + "px";
                     }
-                    html.push("<div class='gallery-image' style='width:" + image.width + "; margin-right:" + marginRight + "; margin-bottom: " + spacing + "px;'>");
-                    html.push("<img src='images/" + image.file + "' width='" + image.width + "' height='" + image.height + "' border='0'>");
-                    html.push("<div class='image-footer'>", image.file, "</div>");
+                    // normally I'd use a handlebars template but going native here.
+                    html.push("<div class='gallery-image' style='width:", image.width, "px; margin-right:",
+                              marginRight, "; margin-bottom: ", spacing, "px;'>");
+                    html.push("<img src='images/", image.file, "' width='", image.width, "' height='", image.height,
+                              "' border='0'>");
+                    html.push("<div class='image-footer' style='width: ", image.width, "px'>", image.title, "</div>");
                     html.push("</div>");
                 });
                 html.push("</div>");
@@ -141,6 +128,25 @@ var cats = [
 
 }.call(this));
 
+// test data!
+var cats = [
+    { height: 900, width: 1600, file: "cat1.jpg", title: "I'm open!" },
+    { height: 920, width: 1150, file: "cat2.jpg", title: "Where's the cuddle flower?" },
+    { height: 660, width: 1024, file: "cat3.jpg", title: "This bucket is full of cute!"  },
+    { height: 828, width: 1913, file: "cat4.jpg", title: "Go away!"  },
+    { height: 749, width: 852, file: "cat5.jpg", title: "Twinning!"  },
+    { height: 962, width: 1576, file: "cat6.jpg", title: "Facepalm."  },
+    { height: 754, width: 1270, file: "cat7.jpg", title: "Peak fuzz."  },
+    { height: 2407, width: 3743, file: "cat8.jpg", title: "Rawr!"  },
+    { height: 730, width: 459, file: "cat9.jpg", title: "Chillin'"  },
+    { height: 1200, width: 1920, file: "cat10.jpg", title: "Kitty head a-pokin'"  },
+    { height: 768, width: 1024, file: "cat11.jpg", title: "I'm stumped!"  },
+    { height: 1000, width: 1110, file: "cat12.jpg", title: "Delicious breath!"  },
+    { height: 768, width: 1024, file: "cat13.jpg", title: "Like my sculpture?"  },
+    { height: 733, width: 822, file: "cat14.jpg", title: "Meows given: 0"  },
+    { height: 1200, width: 1920, file: "cat15.jpg", title: "Thpbhbthbt!!"  }
+];
+
 document.addEventListener("DOMContentLoaded", function(event) {
-    Gallery.renderFrames(Gallery.layoutFrames(cats, 1000, 260, 10), 1000, 10);
+    Gallery.renderFrames(cats, 1200, 220, 10);
 });

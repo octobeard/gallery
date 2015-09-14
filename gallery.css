@@ -7,9 +7,13 @@
     background-color: #5555ff;
     color: white;
     font-family: sans-serif;
+    font-size: 0.9em;
     font-variant: small-caps;
-    height: 24px;
+    height: 20px;
     margin-top: -6px;
+    overflow: hidden;
     padding-top: 6px;
     text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
