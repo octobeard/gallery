@@ -128,8 +128,9 @@ var cats = [
                     if (index < row.length - 1) {
                         marginRight = spacing + "px";
                     }
-                    html.push("<div style='float:left; width:" + image.width + "; margin-right:" + marginRight + "'>");
-                    html.push("<img src='images/" + image.file + "' width='" + image.width + "' height='" + image.height + "'>");
+                    html.push("<div class='gallery-image' style='width:" + image.width + "; margin-right:" + marginRight + "; margin-bottom: " + spacing + "px;'>");
+                    html.push("<img src='images/" + image.file + "' width='" + image.width + "' height='" + image.height + "' border='0'>");
+                    html.push("<div class='image-footer'>", image.file, "</div>");
                     html.push("</div>");
                 });
                 html.push("</div>");
